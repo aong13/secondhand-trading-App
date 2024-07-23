@@ -1,7 +1,8 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, Text, FlatList } from 'react-native';
+import { SafeAreaView, StyleSheet, View, Text, FlatList, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import BasicHeader from '../components/BasicHeader';
+import TransactionCards from '../components/TransactionCards';
 
 const Home = () => {
   const sourceUri = 'http://localhost:8080/KakaoMap.html'; // 로컬 웹 서버 URL
@@ -9,36 +10,18 @@ const Home = () => {
   ? 'file:///android_asset/KakaoMap.html' 
   : 'KakaoMap.html';
 
-  const example = [
-    { id: '1', title: 'Card 1' },
-    { id: '2', title: 'Card 2' },
-    { id: '3', title: 'Card 3' },
-    { id: '4', title: 'Card 4' },
-    { id: '5', title: 'Card 5' },
+  const dummyData = [
+    { id: '1', title: '닌텐도 스위치 팝니다.', content: '상태 A급 풀박스입니다.', method: '직거래', price: 30000 },
+    { id: '2', title: '플레이스테이션 4 팝니다.', content: '약간의 사용감 있지만 잘 작동합니다.', method: '직거래', price: 20000 },
+    { id: '3', title: 'XBOX ONE S 팝니다.', content: '거의 사용 안한 새 제품입니다.', method: '직거래 및 택배 가능', price: 25000 },
+    { id: '4', title: '닌텐도 스위치 라이트 판매합니다.', content: '상태 매우 좋습니다. 추가 컨트롤러 포함.', method: '직거래', price: 22000 },
+    { id: '5', title: '닌텐도 스위치 게임 팝니다.', content: '마리오 카트 8 디럭스, 젤다의 전설 포함.', method: '택배만 가능', price: 15000 },
+    { id: '6', title: '플레이스테이션 5 팝니다.', content: '새 제품, 박스 미개봉입니다.', method: '직거래', price: 50000 }
   ];
-
-  const Card = ({ title }) => (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{title}</Text>
-    </View>
-  );
-
-  const Carousel = ({ data }) => {
-    return (
-      <FlatList
-        data={data}
-        renderItem={({ item }) => <Card title={item.title} />}
-        keyExtractor={(item) => item.id}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.list}
-      />
-    );
-  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <BasicHeader title={'동 검색'} />
+      <BasicHeader title={'거래 찾기'} />
         <WebView
           originWhitelist={['*']}
           source={{ uri: sourceUri }}
@@ -60,7 +43,7 @@ const Home = () => {
           onLoadStart={() => console.log('WebView load start')}
         />
       <View style={styles.cardContainer}>
-        <Carousel data={example} />
+        <TransactionCards transactionList={dummyData} />
       </View>
     </SafeAreaView>
   );
@@ -83,22 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 9,
   },
-  list: {
-    paddingHorizontal: 10,
-  },
-  card: {
-    backgroundColor: '#f5f5f5',
-    padding: 20,
-    marginHorizontal: 10,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 200, // Card width
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+
 });
 
 export default Home;
