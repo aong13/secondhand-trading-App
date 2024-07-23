@@ -21,7 +21,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <BasicHeader title={'거래 찾기'} />
+      <BasicHeader title={'거래 찾기'} showBackButton={false}/>
         <WebView
           originWhitelist={['*']}
           source={{ uri: sourceUri }}
