@@ -3,11 +3,12 @@ import { SafeAreaView, Text, StyleSheet, Pressable, ScrollView, View } from 'rea
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BasicHeader from '../components/BasicHeader';
 import { siObj, siGuList } from '../data/Si-Gun-goo';
+import locations from '../data/Mapped-dong.json';
 
 const SelectAdress = ({ navigation }) => {
     const { top, bottom } = useSafeAreaInsets();
     const [selectSi, setSelectSi] = useState('');
-    const [selectDo, setSelectDo] = useState('');
+    const [selectGu, setSelectGu] = useState('');
     const [selectDong, setSelectDong] = useState('');
     const [doList, setDoList] = useState([]);
     const [selectDongList, setSelectDongList] = useState([]);
@@ -18,15 +19,15 @@ const SelectAdress = ({ navigation }) => {
         const selectedSi = e.long;
         const selectedGu = siGuList.find(item => item.si === selectedSi);
         setDoList(selectedGu ? selectedGu.gu : []);
-        setSelectDo('');
+        setSelectGu('');
         setSelectDongList([]);
     };
 
     // 구 선택 시
     const handleTouchGu = (e) => {
-        setSelectDo(e);
-        const selectedDong = selectDongList.filter(item => item.includes(e));
-        setSelectDongList(selectedDong);
+        setSelectGu(e);
+        const dongList = Object.keys(locations).filter(dong => dong.includes(e));
+        setSelectDongList(dongList);
     };
 
     // 동 선택 시
@@ -62,7 +63,7 @@ const SelectAdress = ({ navigation }) => {
                                 key={i} 
                                 onPress={() => handleTouchGu(e)}
                             >
-                                <Text allowFontScaling={false} style={e === selectDo ? styles.onSelectDo : styles.offSelectDo}>
+                                <Text allowFontScaling={false} style={e === selectGu ? styles.onSelectDo : styles.offSelectDo}>
                                     {e}
                                 </Text>
                             </Pressable>
@@ -95,14 +96,14 @@ const styles = StyleSheet.create({
     onSelectSi: {
         backgroundColor: '#4AABFF',
         paddingVertical: 16,
-        paddingHorizontal: 24,
+        paddingHorizontal: 20,
         borderBottomWidth: 0.5,
         borderBottomColor: '#C3C3C3',
     },
     offSelectSi: {
         backgroundColor: '#F5F5F5',
         paddingVertical: 16,
-        paddingHorizontal: 24,
+        paddingHorizontal: 20,
         borderBottomWidth: 0.5,
         borderBottomColor: '#C3C3C3',
     },
@@ -111,9 +112,10 @@ const styles = StyleSheet.create({
         lineHeight: 20,
         color: '#FFF',
         textAlign: 'center',
+        fontWeight:'900'
     },
     offSelectSiText: {
-        fontSize: 14,
+        fontSize: 16,
         lineHeight: 20,
         color: '#888',
         textAlign: 'center',
@@ -130,9 +132,10 @@ const styles = StyleSheet.create({
         lineHeight: 20,
         color: '#4AABFF',
         textAlign: 'center',
+        fontWeight:'900'
     },
     offSelectDo: {
-        fontSize: 14,
+        fontSize: 16,
         lineHeight: 20,
         color: '#888',
         textAlign: 'center',
