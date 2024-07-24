@@ -3,10 +3,11 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const back_icon = require('../assets/icons/back.png');
+const arrow_down = require('../assets/icons/arrow_drop_down.png');
 
-const BasicHeader = ({ title, showBackButton = true, rightButtons = [] }) => {
+export const BasicHeader = ({ title, showBackButton = true, rightButtons = [] }) => {
     const navigation = useNavigation();
-
+    
     return (
         <View style={styles.headerWrapper}>
             {showBackButton && (
@@ -26,6 +27,25 @@ const BasicHeader = ({ title, showBackButton = true, rightButtons = [] }) => {
     );
 };
 
+export const HomeHeader = ({ title }) => {
+    const navigation = useNavigation();
+    
+    const onPressArrow = () =>{
+    navigation.navigate('SelectAdress')
+    }
+    return (
+        <View style={styles.headerWrapper}>
+            <View style={styles.homeHeaderTitleWrapper}>
+                <Text style={styles.homeHeaderTitle}>{title}</Text>
+                <TouchableOpacity onPress={onPressArrow}>
+                    <Image source={arrow_down} style={styles.headerIcon} />
+                </TouchableOpacity>
+            </View>
+
+        </View>
+    );
+};
+
 const styles = StyleSheet.create({
     headerWrapper: {
         backgroundColor: '#FFF',
@@ -37,6 +57,17 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#EAEAEA',
         height:28+16+16,
+    },
+    homeHeaderTitleWrapper:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    homeHeaderTitle:{
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#000',
     },
     headerTitle: {
         position:'absolute',
@@ -56,5 +87,3 @@ const styles = StyleSheet.create({
         height: 28
     },
 });
-
-export default BasicHeader;
