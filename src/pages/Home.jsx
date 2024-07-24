@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
-import BasicHeader from '../components/BasicHeader';
+import {HomeHeader} from '../components/BasicHeader';
 import TransactionCards from '../components/TransactionCards';
 import { NaverMapView } from '@mj-studio/react-native-naver-map';
 
@@ -16,32 +16,43 @@ import { useSelector } from 'react-redux';
     { id: '6', title: '플레이스테이션 5 팝니다.', content: '새 제품, 박스 미개봉입니다.', method: '직거래', price: 50000 }
   ];
 
-const Home = () => {
+const Home = ({navigation}) => {
   const currentLocation = useSelector((state) => state.location.currentLocation);
   const [camera, setCamera] = useState({ //서울
     latitude: 37.715133,
     longitude: 37.413294,
     zoom: 15,
   });
+
+  //동주소까지 선택한경우 데이터를 받아옴.
   const route = useRoute();
-  const { address } = route.params || {}; // 주소 데이터 받기
+  const { dong, coor } = route.params || {};
+  
 
   useEffect(() => {
-    if (currentLocation) {
+    if (coor) {
+      setCamera({
+        latitude: coor[0][1],
+        longitude: coor[0][0],
+        zoom: 15,
+    })} 
+    else if (currentLocation) {
       setCamera({
         latitude: currentLocation.latitude,
         longitude: currentLocation.longitude,
         zoom: 15,
-      })
-    } else {
-      //위치재설정처리
+      });
     }
-  }, [currentLocation]);
+    else{
+      //위치 재설정 필요
+    }
+    console.log("coor:", coor[0])
+    console.log("setCamera:", camera)
+  }, [currentLocation, coor]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <BasicHeader title={'거래 찾기'} showBackButton={false} />
-      <Text>Received Address: {address}</Text>
+      <HomeHeader title={dong||"내 위치"} navigation={navigation}/>
     <NaverMapView
       style={styles.mapView}
       camera={camera}

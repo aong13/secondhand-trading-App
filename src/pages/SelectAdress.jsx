@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import BasicHeader from '../components/BasicHeader';
+import {BasicHeader} from '../components/BasicHeader';
 import { siObj, siGuList } from '../data/Si-Gun-goo';
-import locations from '../data/Mapped-dong.json';
+import dong_json from '../data/Mapped-dong.json';
 
 const SelectAdress = ({ navigation }) => {
     const { top, bottom } = useSafeAreaInsets();
@@ -12,7 +12,7 @@ const SelectAdress = ({ navigation }) => {
     const [selectDong, setSelectDong] = useState('');
     const [doList, setDoList] = useState([]);
     const [selectDongList, setSelectDongList] = useState([]);
-
+    const [coorList, setCoor] = useState([]);
     // 시 선택 시
     const handleTouchSi = (e) => {
         setSelectSi(e);
@@ -26,13 +26,15 @@ const SelectAdress = ({ navigation }) => {
     // 구 선택 시
     const handleTouchGu = (e) => {
         setSelectGu(e);
-        const dongList = Object.keys(locations).filter(dong => dong.includes(e));
+        const dongList = Object.keys(dong_json).filter(dong => dong.includes(e));
         setSelectDongList(dongList);
     };
 
     // 동 선택 시
     const handleTouchDong = (e) => {
-        navigation.navigate('Home', { address: e });
+        const coor = dong_json[e] || []; // 선택한 동의 좌표
+        const dong = e.split(' ')[2]; // 동 이름
+        navigation.navigate('Home', { dong: dong, coor: coor }); // Home으로 데이터 전달
     };
 
     return (
