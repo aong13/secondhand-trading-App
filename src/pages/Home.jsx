@@ -46,8 +46,6 @@ const Home = ({navigation}) => {
     else{
       //위치 재설정 필요
     }
-    console.log("coor:", coor[0])
-    console.log("setCamera:", camera)
   }, [currentLocation, coor]);
 
   return (
