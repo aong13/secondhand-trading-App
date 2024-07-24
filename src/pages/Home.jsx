@@ -3,8 +3,9 @@ import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import BasicHeader from '../components/BasicHeader';
 import TransactionCards from '../components/TransactionCards';
 import { NaverMapView } from '@mj-studio/react-native-naver-map';
-import { useRoute } from '@react-navigation/native';
 
+import { useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
   const dummyData = [
     { id: '1', title: '닌텐도 스위치 팝니다.', content: '상태 A급 풀박스입니다.', method: '직거래', price: 30000 },
     { id: '2', title: '플레이스테이션 4 팝니다.', content: '약간의 사용감 있지만 잘 작동합니다.', method: '직거래', price: 20000 },
@@ -15,6 +16,7 @@ import { useRoute } from '@react-navigation/native';
   ];
 
 const Home = () => {
+  const currentLocation = useSelector((state) => state.location.currentLocation);
 
   const route = useRoute();
   const { address } = route.params || {}; // 주소 데이터 받기
@@ -24,7 +26,13 @@ const Home = () => {
     <SafeAreaView style={styles.container}>
       <BasicHeader title={'거래 찾기'} showBackButton={false} />
       <Text>Received Address: {address}</Text>
-
+      <View>
+      {currentLocation ? (
+        <Text>Current Location: {currentLocation.latitude}, {currentLocation.longitude}</Text>
+      ) : (
+        <Text>No location data available</Text>
+      )}
+    </View>
       <NaverMapView style={styles.mapView}/>
       <View style={styles.cardContainer}>
         <TransactionCards transactionList={dummyData} />
