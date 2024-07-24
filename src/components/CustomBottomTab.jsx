@@ -25,7 +25,7 @@ const CustomBottomTab = ({state, navigation, descriptors}) => {
           switch (label) {
             case 'Home':
               return bool ? homeOn : homeOff;
-            case 'Search':
+            case 'SelectAdress':
               return bool ? searchOn : searchOff;
             case 'Chat':
               return bool ? dmOn : dmOff;

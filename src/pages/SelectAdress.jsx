@@ -34,14 +34,16 @@ const SelectAdress = ({ navigation }) => {
     const handleTouchDong = (e) => {
         const coor = dong_json[e] || []; // 선택한 동의 좌표
         const dong = e.split(' ')[2]; // 동 이름
-        navigation.navigate('Home', { dong: dong, coor: coor }); // Home으로 데이터 전달
-    };
-
+        setSelectDong(dong);
+     setTimeout(() => {
+        navigation.navigate('Home', { dong: dong, coor: coor });
+    }, 500); // 0.5초 지연;
+    }
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF', paddingTop: top }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF', paddingTop: top, marginBottom:50 }}>
             <BasicHeader title={'동네별 검색'} />
             <View style={{ flexDirection: 'row', flex: 1 }}>
-                <View style={{ flex: 0.2, backgroundColor: '#F5F5F5' }}>
+                <View style={{ flex: 0.2}}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {siObj.map((e, i) => (
                             <Pressable 
@@ -65,7 +67,7 @@ const SelectAdress = ({ navigation }) => {
                                 key={i} 
                                 onPress={() => handleTouchGu(e)}
                             >
-                                <Text allowFontScaling={false} style={e === selectGu ? styles.onSelectDo : styles.offSelectDo}>
+                                <Text allowFontScaling={false} style={e === selectGu ? styles.onSelectGu : styles.offSelectGu}>
                                     {e}
                                 </Text>
                             </Pressable>
@@ -76,15 +78,15 @@ const SelectAdress = ({ navigation }) => {
                 <View style={{ flex: 0.4, borderRightWidth: 0.5, borderColor: '#C3C3C3' }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {selectDongList.map((e, i) => (
-                            <Pressable 
-                                onPress={() => handleTouchDong(e)} 
-                                style={styles.DoWrapper} 
+                            <Pressable
+                                onPress={() => handleTouchDong(e)}
+                                style={styles.DoWrapper}
                                 key={i}
                             >
-                                <Text allowFontScaling={false} style={e === selectDong ? styles.onSelectDo : styles.offSelectDo}>
-                                    {e.split(' ')[2]}
-                                </Text>
-                            </Pressable>
+                            <Text allowFontScaling={false} style={e.split(' ')[2] === selectDong ? styles.onSelectGu : styles.offSelectGu}>
+                                {e.split(' ')[2]}
+                            </Text>
+                        </Pressable>
                         ))}
                         <View style={{ height: bottom }} />
                     </ScrollView>
@@ -129,14 +131,14 @@ const styles = StyleSheet.create({
         borderBottomColor: '#C3C3C3',
         marginHorizontal: 16,
     },
-    onSelectDo: {
+    onSelectGu: {
         fontSize: 16,
         lineHeight: 20,
         color: '#4AABFF',
         textAlign: 'center',
         fontWeight:'900'
     },
-    offSelectDo: {
+    offSelectGu: {
         fontSize: 16,
         lineHeight: 20,
         color: '#888',
