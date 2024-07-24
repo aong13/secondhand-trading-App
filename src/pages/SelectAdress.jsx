@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BasicHeader from '../components/BasicHeader';
 import { siObj, siGuList } from '../data/Si-Gun-goo';
 
-const Search = ({ navigation }) => {
+const SelectAdress = ({ navigation }) => {
     const { top, bottom } = useSafeAreaInsets();
     const [selectSi, setSelectSi] = useState('');
     const [selectDo, setSelectDo] = useState('');
@@ -31,12 +31,12 @@ const Search = ({ navigation }) => {
 
     // 동 선택 시
     const handleTouchDong = (e) => {
-        navigation.navigate('SelectDongResult', { address: e });
+        navigation.navigate('Home', { address: e });
     };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#FFF', paddingTop: top }}>
-            <BasicHeader title={'동 검색'} />
+            <BasicHeader title={'동네별 검색'} />
             <View style={{ flexDirection: 'row', flex: 1 }}>
                 <View style={{ flex: 0.2, backgroundColor: '#F5F5F5' }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Search;
+export default SelectAdress;

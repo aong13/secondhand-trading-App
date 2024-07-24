@@ -1,14 +1,9 @@
 import React from 'react';
-import { SafeAreaView, StyleSheet, View, Text, FlatList, Dimensions } from 'react-native';
-import { WebView } from 'react-native-webview';
+import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 import BasicHeader from '../components/BasicHeader';
 import TransactionCards from '../components/TransactionCards';
-
-const Home = () => {
-  const sourceUri = 'http://localhost:8080/KakaoMap.html'; // 로컬 웹 서버 URL
-  const htmlUri = Platform.OS === 'android' 
-  ? 'file:///android_asset/KakaoMap.html' 
-  : 'KakaoMap.html';
+import { NaverMapView } from '@mj-studio/react-native-naver-map';
+import { useRoute } from '@react-navigation/native';
 
   const dummyData = [
     { id: '1', title: '닌텐도 스위치 팝니다.', content: '상태 A급 풀박스입니다.', method: '직거래', price: 30000 },
@@ -19,29 +14,18 @@ const Home = () => {
     { id: '6', title: '플레이스테이션 5 팝니다.', content: '새 제품, 박스 미개봉입니다.', method: '직거래', price: 50000 }
   ];
 
+const Home = () => {
+
+  const route = useRoute();
+  const { address } = route.params || {}; // 주소 데이터 받기
+  
+
   return (
     <SafeAreaView style={styles.container}>
-      <BasicHeader title={'거래 찾기'} showBackButton={false}/>
-        <WebView
-          originWhitelist={['*']}
-          source={{ uri: sourceUri }}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          allowFileAccess={true}
-          allowUniversalAccessFromFileURLs={true}
-          style={styles.webview}
-          onError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.warn('WebView error: ', nativeEvent);
-          }}
-          onHttpError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.warn('WebView HTTP error: ', nativeEvent);
-          }}
-          onLoad={() => console.log('WebView loaded!!!')}
-          onLoadEnd={() => console.log('WebView load end')}
-          onLoadStart={() => console.log('WebView load start')}
-        />
+      <BasicHeader title={'거래 찾기'} showBackButton={false} />
+      <Text>Received Address: {address}</Text>
+
+      <NaverMapView style={styles.mapView}/>
       <View style={styles.cardContainer}>
         <TransactionCards transactionList={dummyData} />
       </View>
@@ -54,19 +38,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
-  webview: {
+  mapView: {
     flex: 1,
-    borderColor: 'black',
-    borderWidth:4
   },
   cardContainer: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 60,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 9,
   },
-
 });
 
 export default Home;

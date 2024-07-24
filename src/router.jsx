@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomBottomTab from './components/CustomBottomTab';
 import Home from './pages/Home';
-import Search from './pages/Search';
+import SelectAdress from './pages/SelectAdress';
 import Chat from './pages/Chat';
 import MyPage from './pages/MyPage';
 import Splash from './pages/Splash';
@@ -23,7 +23,7 @@ const MainTab = () => {
       }}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Search" component={Search} />
+      <Tab.Screen name="SelectAdress" component={SelectAdress} />
       <Tab.Screen name="Chat" component={Chat} />
       <Tab.Screen name="MyPage" component={MyPage} />
     </Tab.Navigator>
